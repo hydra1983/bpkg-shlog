@@ -57,12 +57,12 @@ shlog () {
             ##
             ## Dump the configuration of shlog upon initialization. See [`SHLOG_SELFDEBUG`](#shlog-selfdebug)
             ##
-            -v|--verbose) SHLOG_SELFDEBUG=true; shift ;;
+            -v|--verbose) SHLOG_SELFDEBUG="true"; shift ;;
         esac
         shift
     done
     msg="${msg:-$*}"
-    if [[ $SHLOG_INITIALIZED != "true" ]];then
+    if [[ "$SHLOG_INITIALIZED" != "true" ]];then
         shlog-init
     fi
     local output
@@ -77,7 +77,7 @@ shlog () {
         # shellcheck disable=2059
         local date=$(printf "$SHLOG_DATE_FORMAT")
         printf -v levelfmt "%-5s" "$level"
-        if [[ ${SHLOG_USE_STYLES[$output]} = true ]];then
+        if [[ "${SHLOG_USE_STYLES[$output]}" = "true" ]];then
             out=${out//%level/${SHLOG_STYLES[$level]}${levelfmt}${CSI_RESET}}
             out=${out//%module/${SHLOG_STYLES[module]}${module}${CSI_RESET}}
             out=${out//%line/${SHLOG_STYLES[line]}${BASH_LINENO[0]}${CSI_RESET}}
@@ -207,15 +207,15 @@ shlog-init () {
     ##
     ## #### SHLOG_OUTPUT_STDOUT
     ##
-    ##  `SHLOG_OUTPUT_STDOUT`     : Use styles on stdout . Default: `true`
+    ##  `SHLOG_OUTPUT_STDOUT`     : Use styles on stdout . Default: `"true"`
     ##
     ## #### SHLOG_USE_STYLES_STDERR
     ##
-    ##  `SHLOG_USE_STYLES_STDERR` : Use styles on stderr . Default: `true`
+    ##  `SHLOG_USE_STYLES_STDERR` : Use styles on stderr . Default: `"true"`
     ##
     ## #### SHLOG_USE_STYLES_FILE
     ##
-    ##  `SHLOG_USE_STYLES_FILE`   : Use styles on file   . Default: `false`
+    ##  `SHLOG_USE_STYLES_FILE`   : Use styles on file   . Default: `"false"`
     ##
     SHLOG_USE_STYLES=(
         [stdout]="${SHLOG_USE_STYLES_STDOUT:-true}"

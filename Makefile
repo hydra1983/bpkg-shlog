@@ -8,6 +8,8 @@ MANDIR=$(PREFIX)/share/man/man1
 
 .PHONY: README.md
 
+all: shlog.sh README.md shlog.1
+
 shlog.1: shlog.1.md shlog.sh
 	shinclude -i -c markdown shlog.1.md
 	ronn --date=`date -I` --name="shlog" --roff shlog.1.md
@@ -15,7 +17,7 @@ shlog.1: shlog.1.md shlog.sh
 README.md:
 	shinclude -i -c xml README.md
 
-install: shlog.sh README.md shlog.1
+install: all
 	mkdir -p $(BINDIR)
 	shinclude shlog.sh > $(BINDIR)/shlog
 	chmod a+x $(BINDIR)/shlog

@@ -97,15 +97,15 @@ Defines which outputs should use [styles](#shlog_styles).
 
 #### SHLOG_OUTPUT_STDOUT
 
- `SHLOG_OUTPUT_STDOUT`     : Use styles on stdout . Default: `true`
+ `SHLOG_OUTPUT_STDOUT`     : Use styles on stdout . Default: `"true"`
 
 #### SHLOG_USE_STYLES_STDERR
 
- `SHLOG_USE_STYLES_STDERR` : Use styles on stderr . Default: `true`
+ `SHLOG_USE_STYLES_STDERR` : Use styles on stderr . Default: `"true"`
 
 #### SHLOG_USE_STYLES_FILE
 
- `SHLOG_USE_STYLES_FILE`   : Use styles on file   . Default: `false`
+ `SHLOG_USE_STYLES_FILE`   : Use styles on file   . Default: `"false"`
 
 ### SHLOG_FILE
 
