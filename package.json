@@ -1,0 +1,10 @@
+{
+    "name": "shlog",
+    "version": "0.0.1",
+    "description": "Logging for shell scripts",
+    "global": false,
+    "dependencies": {
+        "term": "master"
+    },
+    "repo": "kba/shlog"
+}
