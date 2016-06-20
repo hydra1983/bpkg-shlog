@@ -15,25 +15,18 @@
 CSI="\e["
 CSI_RESET="${CSI}0m"
 
-typeset -A \
-    SHLOG_LEVELS \
-    SHLOG_STYLES \
-    SHLOG_USE_STYLES \
-    SHLOG_OUTPUTS \
-    SHLOG_USE_STYLES
-export \
-    SHLOG_LEVELS \
-    SHLOG_STYLES \
-    SHLOG_OUTPUTS \
-    SHLOG_USE_STYLES \
-    SHLOG_FILE \
-    SHLOG_SELFDEBUG \
-    SHLOG_INITIALIZED
-
 shlog () {
     local level="trace"
     local msg
-    local module="${0##*/}"
+    local module
+    if [[ "${BASH_SOURCE[0]}" != "$0" ]];then
+        module="${BASH_SOURCE[1]}"
+    else
+        module="$0"
+    fi
+    module=${module##*/}
+    module=${module%%.%}
+    local exit_status=-1
     while [[ "$1" = -* ]];do
         case "$1" in
             ## ## OPTIONS
@@ -48,6 +41,11 @@ shlog () {
             ## Mark the log message as belonging to this module. Default: basename of `$0`
             ##
             -m|--module) module="$2"; shift ;;
+            ## ### -x,--exit EXIT_STATUS
+            ##
+            ## Exit the shell after emitting the log message.
+            ##
+            -x|--exit) exit_status=$2; shift ;;
             ## ### -d,--dump VARNAME
             ##
             ## Dump the definition of `VARNAME` instead of a log message.
@@ -96,6 +94,9 @@ shlog () {
             file) echo -e "$out" >> "$SHLOG_FILE" ;;
         esac
     done
+    if [[ "$exit_status" != "-1" ]];then
+        exit "$exit_status"
+    fi
 }
 
 shlog-dump () {
@@ -111,6 +112,18 @@ shlog-init () {
 
     ## ## ENVIRONMENT VARIABLES
     ##
+    typeset -gAx \
+        SHLOG_LEVELS \
+        SHLOG_STYLES \
+        SHLOG_OUTPUTS \
+        SHLOG_USE_STYLES
+    export \
+        SHLOG_FILE \
+        SHLOG_DATE_FORMAT \
+        SHLOG_FORMAT \
+        SHLOG_SELFDEBUG \
+        SHLOG_INITIALIZED
+
 
     ## ### SHLOG_LEVELS
     ## 
@@ -277,23 +290,27 @@ shlog-init () {
     ## Default: false
     ##
     if [[ "$SHLOG_SELFDEBUG" = "true" ]];then
-        >&2 echo "Initialized shlog:"
-        >&2 shlog-dump SHLOG_LEVELS \
-            SHLOG_STYLES \
-            SHLOG_USE_STYLES \
-            SHLOG_OUTPUTS \
-            SHLOG_FILE \
-            SHLOG_FORMAT \
-            SHLOG_DATE_FORMAT
+        shlog-selfdebug
     fi
     SHLOG_INITIALIZED=true
+}
+
+shlog-selfdebug () {
+    >&2 echo "Initialized shlog:"
+    >&2 shlog-dump SHLOG_LEVELS \
+        SHLOG_STYLES \
+        SHLOG_USE_STYLES \
+        SHLOG_OUTPUTS \
+        SHLOG_FILE \
+        SHLOG_FORMAT \
+        SHLOG_DATE_FORMAT
 }
 
 # detect if being sourced and
 # export if so else execute
 # main function with args
 if [[ ${BASH_SOURCE[0]} != $0 ]]; then
-  export -f shlog shlog-dump
+    export -f shlog shlog-dump
 else
-  shlog "${@}"
+    shlog "${@}"
 fi

@@ -18,6 +18,10 @@ Log the message to this level. Default: `trace`
 
 Mark the log message as belonging to this module. Default: basename of `$0`
 
+### -x,--exit EXIT_STATUS
+
+Exit the shell after emitting the log message.
+
 ### -d,--dump VARNAME
 
 Dump the definition of `VARNAME` instead of a log message.

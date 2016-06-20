@@ -10,6 +10,7 @@ Easy Logging in the shell
 * [OPTIONS](#options)
 	* [-l,--level LEVEL](#-l--level-level)
 	* [-m,--module MODULE](#-m--module-module)
+	* [-x,--exit EXIT_STATUS](#-x--exit-exit_status)
 	* [-d,--dump VARNAME](#-d--dump-varname)
 	* [-v,--verbose](#-v--verbose)
 * [ENVIRONMENT VARIABLES](#environment-variables)
@@ -81,6 +82,10 @@ Log the message to this level. Default: `trace`
 ### -m,--module MODULE
 
 Mark the log message as belonging to this module. Default: basename of `$0`
+
+### -x,--exit EXIT_STATUS
+
+Exit the shell after emitting the log message.
 
 ### -d,--dump VARNAME
 
