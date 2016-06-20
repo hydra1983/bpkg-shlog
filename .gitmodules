@@ -1,0 +1,3 @@
+[submodule "build-deps/shinclude"]
+	path = build-deps/shinclude
+	url = https://github.com/kba/shinclude

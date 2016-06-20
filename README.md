@@ -65,7 +65,7 @@ To install to your home directory, use the `PREFIX` make variable:
 make install PREFIX=$HOME/.local
 ```
 
-<!-- BEGIN-RENDER shlog.sh -->
+<!-- BEGIN-RENDER shlog -->
 ## SYNOPSIS
 
     shlog -l debug "I'm a debug message"
@@ -226,6 +226,7 @@ Default: false
 <!-- END-RENDER -->
 
 ## COPYRIGHT
+
 <!-- BEGIN-INCLUDE LICENSE -->
 The MIT License (MIT)
 
@@ -249,5 +250,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-
-
+<!-- END-INCLUDE -->
