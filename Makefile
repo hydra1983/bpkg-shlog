@@ -11,22 +11,25 @@ MKDIR = mkdir -p
 RONN = ronn
 SHINCLUDE = ./build-deps/shinclude/shinclude
 
-.PHONY: README.md
+dist: dist/$(SCRIPT) dist/shlog.1 README.md
 
-all: $(SCRIPT) README.md shlog.1
+dist/$(SCRIPT): $(SCRIPT) $(wildcard src/*.bash)
+	$(MKDIR) dist ; SHLOG_SILENT=true $(SHINCLUDE) -c pound $(SCRIPT) > "$@"
+	chmod a+x "$@"
 
-$(SCRIPT).1: $(SCRIPT).1.md $(SCRIPT)
-	$(SHINCLUDE) -i -c markdown shlog.1.md
-	$(RONN) --date=`date -I` --name="shlog" --roff shlog.1.md
+dist/$(SCRIPT).1: $(SCRIPT).1.md dist/$(SCRIPT)
+	$(SHINCLUDE) -c markdown $(SCRIPT).1.md \
+		| $(RONN) --date=`date -I` --name="shlog" --pipe --roff \
+		> "$@"
 
 README.md: doc/README.md 
 	$(SHINCLUDE) -c xml "$<" > "$@"
 
-install: all
+install: dist
 	mkdir -p $(BINDIR)
-	$(SHINCLUDE) $(SCRIPT) > $(BINDIR)/$(SCRIPT)
+	$(SHINCLUDE) dist/$(SCRIPT) > $(BINDIR)/$(SCRIPT)
 	chmod a+x $(BINDIR)/$(SCRIPT)
-	$(MKDIR) $(MANDIR) && $(CP) -t $(MANDIR) $(SCRIPT).1
+	$(MKDIR) $(MANDIR) && $(CP) -t $(MANDIR) dist/$(SCRIPT).1
 	$(MKDIR) $(SHAREDIR) && cp -t $(SHAREDIR) README.md LICENSE
 
 uninstall:
@@ -34,5 +37,5 @@ uninstall:
 	rm -f $(MANDIR)/$(SCRIPT).1
 	rm -rf $(SHAREDIR)
 
-test:
+test: dist/$(SCRIPT)
 	./test/tsht

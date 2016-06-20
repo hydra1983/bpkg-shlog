@@ -29,7 +29,7 @@ Easy Logging in the shell
 		* [SHLOG_OUTPUT_STDERR](#shlog_output_stderr)
 		* [SHLOG_OUTPUT_FILE](#shlog_output_file)
 	* [SHLOG_USE_STYLES](#shlog_use_styles)
-		* [SHLOG_OUTPUT_STDOUT](#shlog_output_stdout-1)
+		* [SHLOG_USE_STYLES_STDOUT](#shlog_use_styles_stdout)
 		* [SHLOG_USE_STYLES_STDERR](#shlog_use_styles_stderr)
 		* [SHLOG_USE_STYLES_FILE](#shlog_use_styles_file)
 	* [SHLOG_FILE](#shlog_file)
@@ -164,9 +164,9 @@ Defines the minimum level at which to log to different outputs
 
 Defines which outputs should use [styles](#shlog_styles).
 
-#### SHLOG_OUTPUT_STDOUT
+#### SHLOG_USE_STYLES_STDOUT
 
- `SHLOG_OUTPUT_STDOUT`     : Use styles on stdout . Default: `"true"`
+ `SHLOG_USE_STYLES_STDOUT`     : Use styles on stdout . Default: `"true"`
 
 #### SHLOG_USE_STYLES_STDERR
 

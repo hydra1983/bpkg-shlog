@@ -1,0 +1,20 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "SHLOG" "1" "June 2016" "" ""
+.
+.SH "NAME"
+\fBshlog\fR \- Easy logging for the shell
+.
+.SH "SYNOPSIS"
+.
+.nf
+
+shlog \-l debug "I\'m a debug message"
+\-> "[debug] 2016\-06\-19 23:47:36 shlog\.sh:8 \- I\'m a debug message"
+SOMEVAR=3
+shlog \-l info \-d SOMEVAR
+\-> "[info] 2016\-06\-19 23:47:36 shlog\.sh:10 \- SOMEVAR=\'3\'"
+.
+.fi
+
