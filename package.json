@@ -2,8 +2,9 @@
     "name": "shlog",
     "version": "0.0.1",
     "description": "Logging bash",
-    "global": "false",
     "scripts": ["dist/shlog"],
-    "repo": "kba/shlog",
-    "install": "make install PREFIX=$HOME/.local"
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/kba/shlog"
+    }
 }
