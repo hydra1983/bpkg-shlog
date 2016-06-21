@@ -21,14 +21,13 @@ SCRIPT_SOURCES = \
 				 src/shlog-selfdebug.bash \
 				 src/shlog-main.bash
 
-dist: dist/$(SCRIPT) dist/shlog.1 README.md
+dist: $(SCRIPT) $(SCRIPT).1 README.md
 
-dist/$(SCRIPT): $(SCRIPT_SOURCES)
-	$(MKDIR) dist
+$(SCRIPT): $(SCRIPT_SOURCES)
 	cat $(SCRIPT_SOURCES) > "$@"
 	chmod a+x "$@"
 
-dist/$(SCRIPT).1: doc/$(SCRIPT).1.md dist/$(SCRIPT)
+$(SCRIPT).1: doc/$(SCRIPT).1.md $(SCRIPT)
 	$(SHINCLUDE) -c markdown doc/$(SCRIPT).1.md \
 		| $(RONN) --date=`date -I` --name="shlog" --pipe --roff \
 		> "$@"
@@ -38,9 +37,9 @@ README.md: $(wildcard doc/* src/*)
 
 install: dist
 	mkdir -p $(BINDIR)
-	$(CP) dist/$(SCRIPT) $(BINDIR)/$(SCRIPT)
+	$(CP) $(SCRIPT) $(BINDIR)/$(SCRIPT)
 	chmod a+x $(BINDIR)/$(SCRIPT)
-	$(MKDIR) $(MANDIR) && $(CP) -t $(MANDIR) dist/$(SCRIPT).1
+	$(MKDIR) $(MANDIR) && $(CP) -t $(MANDIR) $(SCRIPT).1
 	$(MKDIR) $(SHAREDIR) && cp -t $(SHAREDIR) README.md LICENSE
 
 uninstall:
@@ -48,8 +47,8 @@ uninstall:
 	rm -f $(MANDIR)/$(SCRIPT).1
 	rm -rf $(SHAREDIR)
 
-test: dist/$(SCRIPT)
+test: $(SCRIPT)
 	./test/tsht
 
 clean:
-	$(RM) dist
+	$(RM) $(SCRIPT) $(SCRIPT).1
