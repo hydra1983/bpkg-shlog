@@ -14,7 +14,7 @@ fewew
 
 ## CONFIGURATION
 
-[]: BEGIN-RENDER src/shlog-init.bash
+[]: BEGIN-RENDER src/shlog-reload.bash
 []: END-RENDER
 
 ## FAQ

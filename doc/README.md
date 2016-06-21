@@ -17,7 +17,7 @@ Easy Logging in the shell
 <!-- END-INCLUDE -->
 
 ## CONFIGURATION
-<!-- BEGIN-RENDER src/shlog-init.bash -->
+<!-- BEGIN-RENDER src/shlog-reload.bash -->
 <!-- END-RENDER -->
 
 ## FAQ
@@ -27,7 +27,7 @@ Easy Logging in the shell
 ## API
 <!-- BEGIN-RENDER -ip '#api: \?' src/shlog.bash -->
 <!-- END-RENDER -->
-<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-init.bash -->
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-reload.bash -->
 <!-- END-RENDER -->
 <!-- BEGIN-RENDER -ip '#api: \?' src/shlog-selfdebug.bash -->
 <!-- END-RENDER -->

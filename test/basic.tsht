@@ -1,0 +1,11 @@
+#!/usr/bin/env tsht
+
+SHLOG_FORMAT="%level %msg"
+SHLOG_TERM_COLORIZE=false
+SHLOG_TERM_OUTPUT="stdout"
+shlog::reload
+
+for level in trace debug info warn error;do
+    equals "$(shlog -l $level foo)" "$(printf '%-5s' $level) foo" "level $level"
+done
+equals "$(shlog -d SHLOG_FORMAT)" "trace SHLOG_FORMAT=\"$SHLOG_FORMAT\"" "dump"

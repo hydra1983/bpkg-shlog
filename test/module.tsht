@@ -1,0 +1,9 @@
+#!/usr/bin/env tsht
+
+SHLOG_FORMAT="%level %module %msg"
+SHLOG_TERM_COLORIZE=false
+SHLOG_TERM_OUTPUT="stdout"
+shlog::reload
+
+equals "$(shlog -m someModule -l debug foo)" "debug someModule foo" "module: explicit"
+equals "$(shlog -l debug foo)" "debug module.tsht foo" "module: implicit"
