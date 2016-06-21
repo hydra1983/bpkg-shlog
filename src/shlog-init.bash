@@ -1,23 +1,31 @@
 CSI="\e["
 
-shlog-init () {
+#api: ### `shlog::init`
+#api: [source](__CURFILE__#L__CURLINE__)
+#api:
+#api: (Re-)initialize the logging by reading configuration files and setting up variables.
+#api:
+shlog::init () {
 
-    ## ## ENVIRONMENT VARIABLES
-    ##
-    typeset -gAx \
+    typeset -gA \
         SHLOG_LEVELS \
         SHLOG_STYLES \
         SHLOG_OUTPUTS \
         SHLOG_USE_STYLES
     export \
-        SHLOG_FILE \
+        SHLOG_LEVELS \
+        SHLOG_STYLES \
+        SHLOG_OUTPUTS \
+        SHLOG_USE_STYLES \
         SHLOG_DATE_FORMAT \
+        SHLOG_TERM_OUTPUT \
         SHLOG_FORMAT \
+        SHLOG_FILE_FILENAME \
         SHLOG_SELFDEBUG \
         SHLOG_INITIALIZED
 
 
-    ## ### SHLOG_LEVELS
+    ## ### Log levels
     ## 
     ## `shlog` knows five levels, from lowest to highest priority:
     ##
@@ -36,42 +44,50 @@ shlog-init () {
         [error]=4
     )
 
-    ## ### SHLOG_STYLES
+    ## ### Configuration files
+    ## 
+    ## `shlog` will look in three places for a configuration file with
+    ## environment variables:
+    ## 
+    ## * `/etc/default/shlogrc`
+    ## * `$HOME/.config/shlog/shlogrc`
+    ## * `$PWD/.shlogrc`
+    ## 
+    ## Environment variables in any of those files will be sourced in that
+    ## order to configure the logging.
+    ##
+    for conf in /etc/default/shlogrc $HOME/.config/shlog/shlogrc ${PWD}/.shlogrc;do
+        if [[ -e "$conf" ]];then
+            source "$conf"
+            if [[ ! -z "$SHLOG_SELFDEBUG" ]];then
+                shlog -m shlog -l info "Sourced '$conf'"
+            fi
+        fi
+    done
+
+    ## ### Colors
     ##
     ## Defines the colors to use for various part of the log message if
     ## [`SHLOG_USE_STYLES`](#shlog_use_styles) is set for that [output](#shlog-outputs).
     ##
-    ## #### SHLOG_STYLE_TRACE
-    ##
-    ## `SHLOG_STYLE_TRACE`  : `%level` (`trace`) . Default: magenta
-    ##
-    ## #### SHLOG_STYLE_DEBUG
-    ##
-    ## `SHLOG_STYLE_DEBUG`  : `%level` (`debug`) . Default: cyan
-    ##
-    ## #### SHLOG_STYLE_INFO
-    ##
-    ## `SHLOG_STYLE_INFO`   : `%level` (`info`)  . Default: cyan
-    ##
-    ## #### SHLOG_STYLE_WARN
-    ##
-    ## `SHLOG_STYLE_WARN`   : `%level` (`warn`)  . Default: yellow
-    ##
-    ## #### SHLOG_STYLE_ERROR
-    ##
-    ## `SHLOG_STYLE_ERROR`  : `%level` (`error`) . Default: bold red
-    ##
-    ## #### SHLOG_STYLE_MODULE
-    ##
-    ## `SHLOG_STYLE_MODULE` : `%module`          . Default: bold
-    ##
-    ## #### SHLOG_STYLE_LINE
-    ##
-    ## `SHLOG_STYLE_LINE`   : `%line`            . Default: bold green
-    ##
-    ## #### SHLOG_STYLE_DATE
-    ##
-    ## `SHLOG_STYLE_DATE`   : `%date`            . Default: none
+    ## #### `SHLOG_STYLE_TRACE`
+    ## `SHLOG_STYLE_TRACE`  : `%level`==`trace` : Default: magenta
+    ## #### `SHLOG_STYLE_DEBUG`
+    ## `SHLOG_STYLE_DEBUG`  : `%level`==`debug` : Default: cyan
+    ## #### `SHLOG_STYLE_INFO`
+    ## `SHLOG_STYLE_INFO`   : `%level`==`info`  : Default: cyan
+    ## #### `SHLOG_STYLE_WARN`
+    ## `SHLOG_STYLE_WARN`   : `%level`==`warn`  : Default: yellow
+    ## #### `SHLOG_STYLE_ERROR`
+    ## `SHLOG_STYLE_ERROR`  : `%level`==`error` : Default: bold red
+    ## #### `SHLOG_STYLE_MODULE`
+    ## `SHLOG_STYLE_MODULE` : `%module`         : Default: bold
+    ## #### `SHLOG_STYLE_LINE`
+    ## `SHLOG_STYLE_LINE`   : `%line`           : Default: bold green
+    ## #### `SHLOG_STYLE_DATE`
+    ## `SHLOG_STYLE_DATE`   : `%date`           : Default: none
+    ## #### `SHLOG_STYLE_RESET`
+    ## `SHLOG_STYLE_RESET` : (after every style) : Default: `\e[0m`
     ##
     SHLOG_STYLES=(
         [trace]="${SHLOG_STYLE_TRACE:-${CSI}35m}"
@@ -85,59 +101,54 @@ shlog-init () {
         [reset]="${CSI}0m"
     )
 
-    ## ### SHLOG_OUTPUTS
+    ## ### Outputs
     ##
     ## Defines the minimum level at which to log to different outputs
     ##
-    ## #### SHLOG_OUTPUT_STDOUT
-    ##
-    ## `SHLOG_OUTPUT_STDOUT`: Minimum level for STDOUT. Default: `off`
-    ##
-    ## #### SHLOG_OUTPUT_STDERR
-    ##
-    ## `SHLOG_OUTPUT_STDERR`: Minimum level for STDERR. Default: `trace`
-    ##
-    ## #### SHLOG_OUTPUT_FILE
-    ##
-    ## `SHLOG_OUTPUT_FILE`: Minimum level for file logging. Default: `off`
-    ##
+    ## #### `SHLOG_TERM`
+    ## `SHLOG_TERM`: Minimum level for terminal. Default: `trace`
+    ## #### `SHLOG_FILE`
+    ## `SHLOG_FILE`: Minimum level for file logging. Default: `off`
+    ## 
     SHLOG_OUTPUTS=(
-        [stdout]="${SHLOG_OUTPUT_STDOUT:-off}"
-        [stderr]="${SHLOG_OUTPUT_STDERR:-trace}"
-        [file]="${SHLOG_OUTPUT_FILE:-off}"
+        [term]="${SHLOG_TERM:-trace}"
+        [file]="${SHLOG_FILE:-off}"
     )
 
-    ## ### SHLOG_USE_STYLES
+    ## ### Enabling / Disabling colors
     ##
     ## Defines which outputs should use [styles](#shlog_styles).
-    ##
-    ## #### SHLOG_USE_STYLES_STDOUT
-    ##
-    ##  `SHLOG_USE_STYLES_STDOUT`     : Use styles on stdout . Default: `"true"`
-    ##
-    ## #### SHLOG_USE_STYLES_STDERR
-    ##
-    ##  `SHLOG_USE_STYLES_STDERR` : Use styles on stderr . Default: `"true"`
-    ##
-    ## #### SHLOG_USE_STYLES_FILE
-    ##
-    ##  `SHLOG_USE_STYLES_FILE`   : Use styles on file   . Default: `"false"`
-    ##
+    ## 
+    ## #### `SHLOG_TERM_COLORIZE`
+    ## `SHLOG_TERM_COLORIZE`: Use styles on terminal . Default: `"true"`
+    ## #### `SHLOG_FILE_COLORIZE`
+    ## `SHLOG_FILE_COLORIZE`: Use styles on file . Default: `"false"`
+    ## 
     SHLOG_USE_STYLES=(
-        [stdout]="${SHLOG_USE_STYLES_STDOUT:-true}"
-        [stderr]="${SHLOG_USE_STYLES_STDERR:-true}"
-        [file]="${SHLOG_USE_STYLES_FILE:-false}"
+        [term]="${SHLOG_TERM_COLORIZE:-true}"
+        [file]="${SHLOG_FILE_COLORIZE:-false}"
     )
 
-    ## ### SHLOG_FILE
+    ## ### Term Output options
     ##
-    ## Filename of the file to log to, if logging to a file is enabled
+    ## #### `SHLOG_TERM_OUTPUT`
     ##
-    ## Default: basename of `0` with out extension + `.log` in `/tmp`
+    ## Whether to output to `stderr` (the default) or `stdout`.
     ##
-    SHLOG_FILE=${SHLOG_FILE:-/tmp/$(basename "$0"|sed 's/\..*$//').log}
+    SHLOG_TERM_OUTPUT="${SHLOG_TERM_OUTPUT:-stderr}"
 
-    ## ### SHLOG_DATE_FORMAT
+    ## ### File Output options
+    ##
+    ## #### `SHLOG_FILE_FILENAME`
+    ## `SHLOG_FILE_FILENAME`: Filename of the file to log to.
+    ##
+    ## Default: basename of `$0` with out extension + `.log` in `/tmp`
+    ##
+    SHLOG_FILE_FILENAME=${SHLOG_FILE_FILENAME:-/tmp/$(basename "$0"|sed 's/\..*$//').log}
+
+    ## ### Formatting Log output
+    ##
+    ## #### `SHLOG_DATE_FORMAT`
     ##
     ## `strftime(3)` pattern for the `%date` part of a log message, to be
     ## passed to `printf`.
@@ -146,46 +157,36 @@ shlog-init () {
     ##
     SHLOG_DATE_FORMAT="${SHLOG_DATE_FORMAT:-%(%F %T)T}"
 
-    ## ### SHLOG_FORMAT
+    ## #### `SHLOG_FORMAT`
     ##
     ## `printf`-Pattern for the log message.
     ##
-    ## Custom patterns:
-    ##
-    ## #### %level
-    ##
-    ## `%level`: The [log level](#shlog-levels)
-    ##
-    ## #### %date
-    ##
-    ## `%date`: The timestamp of the log message, see [`SHLOG_DATE_FORMAT`](#shlog_date_format)
-    ##
-    ## #### %module
-    ##
-    ## `%module`: The calling [module](#-m---module-module)
-    ##
-    ## #### %line
-    ##
-    ## `%line`: Line number of the calling script
-    ##
-    ## #### %msg
-    ##
-    ## `%msg`: The actual log message
-    ##
     ## Default: `[%level] %date %module:%line - %msg`
+    ##
+    ## Custom patterns:
+    ## ##### `%level`
+    ## `%level`: The [log level](#shlog-levels)
+    ## ##### `%date`
+    ## `%date`: The timestamp of the log message, see [`SHLOG_DATE_FORMAT`](#shlog_date_format)
+    ## ##### `%module`
+    ## `%module`: The calling [module](#-m---module-module)
+    ## ##### `%line`
+    ## `%line`: Line number of the calling script
+    ## ##### `%msg`
+    ## `%msg`: The actual log message
     ##
     SHLOG_FORMAT="${SHLOG_FORMAT:-[%level] %date %module:%line - %msg}"
 
-    ## ### SHLOG_SELFDEBUG
+    ## ### Debugging shlog
     ##
+    ## #### `SHLOG_SELFDEBUG`
     ## If set to `"true"`, shlog will output its configuration upon first initialization.
     ##
     ## Default: false
     ##
     if [[ "$SHLOG_SELFDEBUG" = "true" ]];then
-        shlog-selfdebug
+        shlog::selfdebug
     fi
+
     SHLOG_INITIALIZED=true
 }
-
-

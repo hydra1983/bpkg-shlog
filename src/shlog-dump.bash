@@ -1,4 +1,9 @@
-shlog-dump () {
+#api: ### `shlog::dump`
+#api: [source](__CURFILE__#L__CURLINE__)
+#api:
+#api: Dump a variable by calling `declare -p`
+#api:
+shlog::dump () {
     local varname
     for varname in "$@";do
         {
