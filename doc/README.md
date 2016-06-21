@@ -9,7 +9,7 @@ Easy Logging in the shell
 <!-- END-MARKDOWN-TOC -->
 
 ## USAGE
-<!-- BEGIN-EVAL ./dist/shlog --help | sed 's,^,\t,' -->
+<!-- BEGIN-EVAL ./shlog --help | sed 's,^,\t,' -->
 <!-- END-EVAL -->
 
 ## INSTALL
@@ -32,6 +32,8 @@ Easy Logging in the shell
 <!-- BEGIN-RENDER -ip '#api: \?' src/shlog-selfdebug.bash -->
 <!-- END-RENDER -->
 <!-- BEGIN-RENDER -ip '#api: \?' src/shlog-dump.bash -->
+<!-- END-RENDER -->
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-pipe.bash -->
 <!-- END-RENDER -->
 
 ## COPYRIGHT

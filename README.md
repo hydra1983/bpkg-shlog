@@ -68,12 +68,13 @@ logging bash
 	* [`shlog::init`](#shloginit)
 	* [`shlog::selfdebug`](#shlogselfdebug)
 	* [`shlog::dump`](#shlogdump)
+	* [`shlog::pipe`](#shlogpipe)
 * [COPYRIGHT](#copyright)
 
 <!-- END-MARKDOWN-TOC -->
 
 ## USAGE
-<!-- BEGIN-EVAL ./dist/shlog --help | sed 's,^,\t,' -->
+<!-- BEGIN-EVAL ./shlog --help | sed 's,^,\t,' -->
 	Usage: shlog [-v] [-l LEVEL] [-m MODULE] [-d VARNAME] [-x EXIT_STATUS] <msg>
 	
 	    Options:
@@ -360,6 +361,14 @@ See [`shlog::dump`](#shlog--dump).
 [source](src/shlog-dump.bash#L2)
 
 Dump a variable by calling `declare -p`
+
+<!-- END-RENDER -->
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-pipe.bash -->
+### `shlog::pipe`
+
+Read lines from STDIN and log them.
+
+See [`shlog`](#shlog) for options.
 
 <!-- END-RENDER -->
 

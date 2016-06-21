@@ -1,0 +1,15 @@
+#!/usr/bin/env tsht
+
+SHLOG_TERM_OUTPUT="stdout"
+SHLOG_FORMAT="%msg"
+source "$(which shlog)"
+
+output=$(
+    (
+        echo one
+        echo two
+        echo three
+    ) | shlog::pipe -l warn 2>&1
+)
+
+equals "$output" "$(echo -e "one\ntwo\nthree")"

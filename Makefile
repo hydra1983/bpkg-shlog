@@ -19,6 +19,7 @@ SCRIPT_SOURCES = \
 				 src/shlog-usage.bash \
 				 src/shlog-dump.bash \
 				 src/shlog-selfdebug.bash \
+				 src/shlog-pipe.bash \
 				 src/shlog-main.bash
 
 dist: $(SCRIPT) $(SCRIPT).1 README.md

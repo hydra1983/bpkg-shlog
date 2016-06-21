@@ -3,7 +3,7 @@
 set -e
 
 SHLOG_DATE_FORMAT="%(%T)T"
-source "../../dist/shlog"
+source "$(which shlog)"
 
 # echo "${!SHLOG_OUTPUTS[@]}"
 # shlog -d SHLOG_FILE

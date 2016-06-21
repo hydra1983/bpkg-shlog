@@ -1,0 +1,17 @@
+#!/usr/bin/env tsht
+
+SHLOG_TERM_OUTPUT="stderr"
+SHLOG_FORMAT="%msg"
+source "$(which shlog)"
+
+trap "rm stdout.file stderr.file" TERM INT EXIT
+
+produce-output () {
+    echo "to stdout"
+    echo "to stderr" >&2
+}
+
+produce-output >"stdout.file" 2> >(shlog::pipe -l warn 2> stderr.file)
+
+equals_file "to stdout" stdout.file "STDOUT is kept"
+equals_file "to stderr" stderr.file "STDERR is kept"
