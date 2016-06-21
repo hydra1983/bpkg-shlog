@@ -63,9 +63,11 @@ logging bash
 	* [How to log to a file?](#how-to-log-to-a-file)
 	* [How to enable or disable color output?](#how-to-enable-or-disable-color-output)
 	* [Logging is slow and `module` is always `shlog`?](#logging-is-slow-and-module-is-always-shlog)
+	* [`shlog` doesn't respect my configuration?](#shlog-doesn-t-respect-my-configuration)
+	* [How to reload the configuration?](#how-to-reload-the-configuration)
 * [API](#api)
 	* [`shlog`](#shlog)
-	* [`shlog::init`](#shloginit)
+	* [`shlog::reload`](#shlogreload)
 	* [`shlog::selfdebug`](#shlogselfdebug)
 	* [`shlog::dump`](#shlogdump)
 * [COPYRIGHT](#copyright)
@@ -74,15 +76,7 @@ logging bash
 
 ## USAGE
 <!-- BEGIN-EVAL ./dist/shlog --help | sed 's,^,\t,' -->
-	Usage: shlog [-v] [-l LEVEL] [-m MODULE] [-d VARNAME] [-x EXIT_STATUS] <msg>
-	
-	    Options:
-	
-	        -h --help               Show this help
-	        -l --level LEVEL        Log at this LEVEL [Default: trace]
-	        -m --module MODULE      Log as this MODULE [Default: calling script]
-	        -d --dump VARNAME       Dump variable VARNAME
-	        -x --exit EXIT_STATUS   Log and exit with EXIT_STATUS
+
 
 <!-- END-EVAL -->
 
@@ -133,7 +127,7 @@ bpkg install 'kba/shlog'
 <!-- END-INCLUDE -->
 
 ## CONFIGURATION
-<!-- BEGIN-RENDER src/shlog-init.bash -->
+<!-- BEGIN-RENDER src/shlog-reload.bash -->
 ### Log levels
 
 `shlog` knows five levels, from lowest to highest priority:
@@ -329,6 +323,12 @@ time for i in $(seq 1000); do shlog -l info test; done
 # sys   0m0.136s
 ```
 
+### `shlog` doesn't respect my configuration?
+### How to reload the configuration?
+
+Call `shlog::reload`, without any arguments. It will reconfigure all
+variables and all changes should be visible then.
+
 <!-- END-INCLUDE -->
 
 ## API
@@ -339,9 +339,9 @@ time for i in $(seq 1000); do shlog -l info test; done
 The logging function
 
 <!-- END-RENDER -->
-<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-init.bash -->
-### `shlog::init`
-[source](src/shlog-init.bash#L4)
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-reload.bash -->
+### `shlog::reload`
+[source](src/shlog-reload.bash#L4)
 
 (Re-)initialize the logging by reading configuration files and setting up variables.
 

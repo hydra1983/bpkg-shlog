@@ -54,14 +54,14 @@ shlog () {
             ## * -x,--exit EXIT_STATUS: Exit the shell after emitting the log message.
             -x|--exit) exit_status=$2; shift ;;
             ## -d,--dump VARNAME: Dump the definition of `VARNAME` instead of a log message.
-            -d|--dump) msg=$(shlog-dump "$2"); shift ;;
+            -d|--dump) msg=$(shlog::dump "$2"); shift ;;
             ## * -v,--verbose: Dump the configuration of shlog upon initialization. See
-            ##   [`SHLOG_SELFDEBUG`](#shlog-selfdebug)
+            ##   [`SHLOG_SELFDEBUG`](#shlogselfdebug)
             -v|--verbose) SHLOG_SELFDEBUG="true"; shift ;;
         esac
         shift
     done
-    if [[ -z "$1" ]];then
+    if [[ -z "$1" && -z "$msg" ]];then
         shlog::usage
         exit
     fi

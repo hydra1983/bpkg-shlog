@@ -1,11 +1,11 @@
 CSI="\e["
 
-#api: ### `shlog::init`
+#api: ### `shlog::reload`
 #api: [source](__CURFILE__#L__CURLINE__)
 #api:
 #api: (Re-)initialize the logging by reading configuration files and setting up variables.
 #api:
-shlog::init () {
+shlog::reload () {
 
     typeset -gA \
         SHLOG_LEVELS \

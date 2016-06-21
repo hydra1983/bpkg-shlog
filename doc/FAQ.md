@@ -77,3 +77,9 @@ time for i in $(seq 1000); do shlog -l info test; done
 # user  0m0.408s
 # sys   0m0.136s
 ```
+
+### `shlog` doesn't respect my configuration?
+### How to reload the configuration?
+
+Call `shlog::reload`, without any arguments. It will reconfigure all
+variables and all changes should be visible then.
