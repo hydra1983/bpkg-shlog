@@ -3,7 +3,7 @@ VERSION=0.0.1
 
 PREFIX=/usr/local
 BINDIR=$(PREFIX)/bin
-SHAREDIR=$(PREFIX)/share/$(PKG_NAME)
+SHAREDIR=$(PREFIX)/share/$(SCRIPT)
 MANDIR=$(PREFIX)/share/man/man1
 
 CP = cp -rvf
