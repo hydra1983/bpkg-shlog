@@ -3,7 +3,7 @@
 # main function with args
 shlog::reload
 if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-    export -f shlog shlog::dump
+    export -f shlog shlog::dump shlog::profile
 else
     shlog "${@}"
 fi

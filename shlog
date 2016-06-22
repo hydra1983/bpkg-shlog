@@ -377,8 +377,6 @@ shlog::pipe () {
         shlog "${shlogargs[@]}" "$line"
     done
 }
-typeset -Agx SHLOG_PROFILE=()
-
 #api: ### `shlog::profile`
 #api: 
 #api: Profile the execution time of shell code.
@@ -400,6 +398,8 @@ typeset -Agx SHLOG_PROFILE=()
 #api: # [info ] - Profiled 'sleep': 1705 ms
 #api: # [debug] - Profiled 'sleep': 708 ms
 #api: ```
+
+typeset -Agx SHLOG_PROFILE
 
 shlog::profile () {
     local now elapsed name do_log
@@ -431,7 +431,7 @@ shlog::profile () {
 # main function with args
 shlog::reload
 if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-    export -f shlog shlog::dump
+    export -f shlog shlog::dump shlog::profile
 else
     shlog "${@}"
 fi

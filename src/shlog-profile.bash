@@ -1,5 +1,3 @@
-typeset -Agx SHLOG_PROFILE=()
-
 #api: ### `shlog::profile`
 #api: 
 #api: Profile the execution time of shell code.
@@ -21,6 +19,8 @@ typeset -Agx SHLOG_PROFILE=()
 #api: # [info ] - Profiled 'sleep': 1705 ms
 #api: # [debug] - Profiled 'sleep': 708 ms
 #api: ```
+
+typeset -Agx SHLOG_PROFILE
 
 shlog::profile () {
     local now elapsed name do_log
