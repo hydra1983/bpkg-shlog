@@ -1,0 +1,18 @@
+#!/usr/bin/env tsht
+
+source "../../shlog"
+
+# shlog::profile 'test1'
+# sleep 0.1
+# shlog::profile -log 'test1'
+# sleep 0.2
+# shlog::profile -log 'test1'
+# sleep 0.1
+# shlog::profile -log 'test1'
+# sleep 0.01
+# shlog::profile -log 'test1'
+shlog::profile 'sleep'
+sleep 1.7
+shlog::profile -log 'sleep' -l "info"
+sleep 0.7
+shlog::profile -log 'sleep' -l "debug"

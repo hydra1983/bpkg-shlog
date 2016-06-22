@@ -126,13 +126,16 @@ Default: basename of \fB$0\fR with out extension + \fB\.log\fR in \fB/tmp\fR
 .SS "Formatting Log output"
 .
 .P
-\fBstrftime(3)\fR pattern for the \fB%date\fR part of a log message, to be passed to \fBprintf\fR\.
+\fBSHLOG_DATE_FORMAT\fR: \fBstrftime(3)\fR pattern for the \fB%date\fR part of a log message, to be passed to \fBprintf\fR\.
 .
 .P
 Default: \fB%(%F %T)T\fR (i\.e\. \fBYYYY\-MM\-DD HH:MM:SS\fR)
 .
 .P
-\fBprintf\fR\-Pattern for the log message\.
+\fBSHLOG_PROFILE_PRECISION\fR: The granularity with which \fI\fBshlog::profile\fR\fR will print the elapsed time\. Can be \fBns\fR for nano\-second precision or \fBms\fR for millisecond precision (the default)\.
+.
+.P
+\fBSHLOG_FORMAT\fR: \fBprintf\fR\-Pattern for the log message\.
 .
 .P
 Default: \fB[%level] %date %module:%line \- %msg\fR
@@ -158,7 +161,7 @@ Custom patterns:
 .SS "Debugging shlog"
 .
 .P
-If set to \fB"true"\fR, shlog will output its configuration upon first initialization\.
+\fBSHLOG_SELFDEBUG\fR: If set to \fB"true"\fR, shlog will output its configuration upon first initialization\.
 .
 .P
 Default: false

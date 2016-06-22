@@ -20,6 +20,7 @@ SCRIPT_SOURCES = \
 				 src/shlog-dump.bash \
 				 src/shlog-selfdebug.bash \
 				 src/shlog-pipe.bash \
+				 src/shlog-profile.bash \
 				 src/shlog-main.bash
 
 PHONY: build-deps dist

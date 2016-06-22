@@ -150,6 +150,7 @@ shlog::reload () {
     ##
     ## #### `SHLOG_DATE_FORMAT`
     ##
+    ## `SHLOG_DATE_FORMAT`:
     ## `strftime(3)` pattern for the `%date` part of a log message, to be
     ## passed to `printf`.
     ##
@@ -157,9 +158,18 @@ shlog::reload () {
     ##
     SHLOG_DATE_FORMAT="${SHLOG_DATE_FORMAT:-%(%F %T)T}"
 
+    ## #### `SHLOG_PROFILE_PRECISION`
+    ##
+    ## `SHLOG_PROFILE_PRECISION`:
+    ## The granularity with which [`shlog::profile`](#shlogprofile) will
+    ## print the elapsed time. Can be `ns` for nano-second precision or
+    ## `ms` for millisecond precision (the default).
+    ##
+    SHLOG_PROFILE_PRECISION=${SHLOG_PROFILE_PRECISION:-ms}
+
     ## #### `SHLOG_FORMAT`
     ##
-    ## `printf`-Pattern for the log message.
+    ## `SHLOG_FORMAT`: `printf`-Pattern for the log message.
     ##
     ## Default: `[%level] %date %module:%line - %msg`
     ##
@@ -180,7 +190,8 @@ shlog::reload () {
     ## ### Debugging shlog
     ##
     ## #### `SHLOG_SELFDEBUG`
-    ## If set to `"true"`, shlog will output its configuration upon first initialization.
+    ## `SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon 
+    ##  first initialization.
     ##
     ## Default: false
     ##

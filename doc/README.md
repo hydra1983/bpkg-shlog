@@ -35,6 +35,8 @@ Easy Logging in the shell
 <!-- END-RENDER -->
 <!-- BEGIN-RENDER -ip '#api: \?' src/shlog-pipe.bash -->
 <!-- END-RENDER -->
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-profile.bash -->
+<!-- END-RENDER -->
 
 ## COPYRIGHT
 <!-- BEGIN-INCLUDE LICENSE -->

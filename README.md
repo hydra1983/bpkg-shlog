@@ -48,6 +48,7 @@ logging bash
 		* [`SHLOG_FILE_FILENAME`](#shlog_file_filename)
 	* [Formatting Log output](#formatting-log-output)
 		* [`SHLOG_DATE_FORMAT`](#shlog_date_format)
+		* [`SHLOG_PROFILE_PRECISION`](#shlog_profile_precision)
 		* [`SHLOG_FORMAT`](#shlog_format)
 			* [`%level`](#level)
 			* [`%date`](#date)
@@ -71,6 +72,7 @@ logging bash
 	* [`shlog::selfdebug`](#shlogselfdebug)
 	* [`shlog::dump`](#shlogdump)
 	* [`shlog::pipe`](#shlogpipe)
+	* [`shlog::profile`](#shlogprofile)
 * [COPYRIGHT](#copyright)
 
 <!-- END-MARKDOWN-TOC -->
@@ -218,14 +220,22 @@ Default: basename of `$0` with out extension + `.log` in `/tmp`
 
 #### `SHLOG_DATE_FORMAT`
 
+`SHLOG_DATE_FORMAT`:
 `strftime(3)` pattern for the `%date` part of a log message, to be
 passed to `printf`.
 
 Default: `%(%F %T)T` (i.e. `YYYY-MM-DD HH:MM:SS`)
 
+#### `SHLOG_PROFILE_PRECISION`
+
+`SHLOG_PROFILE_PRECISION`:
+The granularity with which [`shlog::profile`](#shlogprofile) will
+print the elapsed time. Can be `ns` for nano-second precision or
+`ms` for millisecond precision (the default).
+
 #### `SHLOG_FORMAT`
 
-`printf`-Pattern for the log message.
+`SHLOG_FORMAT`: `printf`-Pattern for the log message.
 
 Default: `[%level] %date %module:%line - %msg`
 
@@ -244,7 +254,8 @@ Custom patterns:
 ### Debugging shlog
 
 #### `SHLOG_SELFDEBUG`
-If set to `"true"`, shlog will output its configuration upon first initialization.
+`SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon 
+ first initialization.
 
 Default: false
 
@@ -377,6 +388,30 @@ Dump a variable by calling `declare -p`
 Read lines from STDIN and log them.
 
 See [`shlog`](#shlog) for options.
+
+<!-- END-RENDER -->
+<!-- BEGIN-RENDER -ip '#api: \?' src/shlog-profile.bash -->
+### `shlog::profile`
+
+Profile the execution time of shell code.
+
+* Register a name with the profiler: `shlog::profile "my-feature"`
+* Whenever you call `shlog::profile -log "my-feature" [shlog-args...]`
+  from now on, a log message with the elapsed time will be output. 
+  `[shlog-args...]` are passed on to `shlog`
+
+Example:
+
+```sh
+shlog::profile 'sleep'
+sleep 1.7
+shlog::profile -log 'sleep' -l "info"
+sleep 0.7
+shlog::profile -log 'sleep' -l "debug"
+
+# [info ] - Profiled 'sleep': 1705 ms
+# [debug] - Profiled 'sleep': 708 ms
+```
 
 <!-- END-RENDER -->
 
