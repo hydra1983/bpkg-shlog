@@ -61,10 +61,10 @@ shlog () {
         esac
         shift
     done
-    if [[ -z "$1" && -z "$msg" ]];then
-        shlog::usage
-        exit
-    fi
+    # if [[ -z "$1" && -z "$msg" ]];then
+    #     shlog::usage
+    #     return
+    # fi
     msg="${msg:-$*}"
     local output
     for output in "${!SHLOG_OUTPUTS[@]}";do
