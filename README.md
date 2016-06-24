@@ -66,6 +66,7 @@ logging bash
 	* [Logging is slow and `module` is always `shlog`?](#logging-is-slow-and-module-is-always-shlog)
 	* [`shlog` doesn't respect my configuration?](#shlog-doesn-t-respect-my-configuration)
 	* [How to reload the configuration?](#how-to-reload-the-configuration)
+	* [How can I execute code just before the log message is printed?](#how-can-i-execute-code-just-before-the-log-message-is-printed)
 * [API](#api)
 	* [`shlog`](#shlog)
 	* [`shlog::reload`](#shlogreload)
@@ -348,6 +349,16 @@ time for i in $(seq 1000); do shlog -l info test; done
 
 Call `shlog::reload`, without any arguments. It will reconfigure all
 variables and all changes should be visible then.
+
+### How can I execute code just before the log message is printed?
+
+You can create a function `shlog::before` that will be called whenever
+`shlog` is called. Some use cases:
+
+* Move the cursor to an appropriate position for full-screen terminal apps
+* Rotate a log file
+* Add one-off solutions for special cases (e.g. send an email for
+  specific condition)
 
 <!-- END-INCLUDE -->
 

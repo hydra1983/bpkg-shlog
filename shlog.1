@@ -288,6 +288,20 @@ time for i in $(seq 1000); do shlog \-l info test; done
 .SS "How to reload the configuration?"
 Call \fBshlog::reload\fR, without any arguments\. It will reconfigure all variables and all changes should be visible then\.
 .
+.SS "How can I execute code just before the log message is printed?"
+You can create a function \fBshlog::before\fR that will be called whenever \fBshlog\fR is called\. Some use cases:
+.
+.IP "\(bu" 4
+Move the cursor to an appropriate position for full\-screen terminal apps
+.
+.IP "\(bu" 4
+Rotate a log file
+.
+.IP "\(bu" 4
+Add one\-off solutions for special cases (e\.g\. send an email for specific condition)
+.
+.IP "" 0
+.
 .SH "COPYRIGHT"
 The MIT License (MIT)
 .

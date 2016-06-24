@@ -33,6 +33,9 @@ shlog () {
     if [[ ! -z "$SHLOG_SILENT" ]];then
         return
     fi
+    if type -t shlog::before >/dev/null;then
+        shlog::before "$@"
+    fi
     local level msg module
     level="trace"
     if [[ "${BASH_SOURCE[0]}" != "$0" ]];then
