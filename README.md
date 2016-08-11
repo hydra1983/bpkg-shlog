@@ -7,7 +7,7 @@ Easy Logging in the shell
          __    __           
    _____/ /_  / /___  ____ _
   / ___/ __ \/ / __ \/ __ `/
- (__  ) / / / / /_/ / /_/ / 
+ (__  ) / / / / /_/ / /_/ /
 /____/_/ /_/_/\____/\__, /  
                    /____/   
 logging bash
@@ -81,9 +81,9 @@ logging bash
 ## USAGE
 <!-- BEGIN-EVAL ./shlog --help | sed 's,^,\t,' -->
 	Usage: shlog [-v] [-l LEVEL] [-m MODULE] [-d VARNAME] [-x EXIT_STATUS] <msg>
-	
+
 	    Options:
-	
+
 	        -h --help               Show this help
 	        -l --level LEVEL        Log at this LEVEL [Default: trace]
 	        -m --module MODULE      Log as this MODULE [Default: calling script]
@@ -101,7 +101,7 @@ logging bash
 ### From source - system-wide
 
 ```
-git clone https://github.com/kba/shlog
+git clone https://github.com/hydra1983/shlog
 cd shlog
 make install
 ```
@@ -124,7 +124,7 @@ including the shlog repo as a git submodule:
 
 ```sh
 cd ~/myproject
-git submodule add https://github.com/kba/shlog deps/shlog
+git submodule add https://github.com/hydra1983/shlog deps/shlog
 ```
 
 In your script, add `~myproject/deps/shlog/dist` to your path and
@@ -133,7 +133,7 @@ In your script, add `~myproject/deps/shlog/dist` to your path and
 ### bpkg bash package manager
 
 ```
-bpkg install 'kba/shlog'
+bpkg install 'hydra1983/shlog'
 ```
 
 <!-- END-INCLUDE -->
@@ -255,7 +255,7 @@ Custom patterns:
 ### Debugging shlog
 
 #### `SHLOG_SELFDEBUG`
-`SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon 
+`SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon
  first initialization.
 
 Default: false
@@ -408,7 +408,7 @@ Profile the execution time of shell code.
 
 * Register a name with the profiler: `shlog::profile "my-feature"`
 * Whenever you call `shlog::profile -log "my-feature" [shlog-args...]`
-  from now on, a log message with the elapsed time will be output. 
+  from now on, a log message with the elapsed time will be output.
   `[shlog-args...]` are passed on to `shlog`
 
 Example:

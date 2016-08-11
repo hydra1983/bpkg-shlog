@@ -38,7 +38,7 @@ build-deps: build-deps/shinclude
 		gem install --user-install ronn; }
 
 build-deps/shinclude:
-	git clone https://github.com/kba/shinclude "$@"
+	git clone https://github.com/hydra1983/shinclude "$@"
 
 #------------------------------------------------------------------------------
 # Build
@@ -97,4 +97,3 @@ realclean: clean
 
 test: $(SCRIPT)
 	./test/tsht
-

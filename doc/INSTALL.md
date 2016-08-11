@@ -5,7 +5,7 @@
 ### From source - system-wide
 
 ```
-git clone https://github.com/kba/shlog
+git clone https://github.com/hydra1983/shlog
 cd shlog
 make install
 ```
@@ -28,7 +28,7 @@ including the shlog repo as a git submodule:
 
 ```sh
 cd ~/myproject
-git submodule add https://github.com/kba/shlog deps/shlog
+git submodule add https://github.com/hydra1983/shlog deps/shlog
 ```
 
 In your script, add `~myproject/deps/shlog/dist` to your path and
@@ -37,5 +37,5 @@ In your script, add `~myproject/deps/shlog/dist` to your path and
 ### bpkg bash package manager
 
 ```
-bpkg install 'kba/shlog'
+bpkg install 'hydra1983/shlog'
 ```

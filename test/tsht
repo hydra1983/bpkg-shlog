@@ -9,7 +9,7 @@ if [[ -z "$TSHTLIB" ]];then
     # Unless TSHTLIB exists, try to clone it
     if [[ ! -e "$TSHTLIB" ]];then
         echo "# $TSHTLIB does not exist, cloning"
-        git clone --depth 1 'http://github.com/kba/tsht' "$TSHTLIB"
+        git clone --depth 1 'http://github.com/hydra1983/tsht' "$TSHTLIB"
         if [[ ! -d "$TSHTLIB" ]];then
             echo "Failed to clone tsht framework!"
             exit 201
