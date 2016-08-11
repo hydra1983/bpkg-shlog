@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/local/bin/bash
 
 # BEGIN-INCLUDE LICENSE.header
 # The MIT License (MIT)
