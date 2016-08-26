@@ -2,19 +2,19 @@
 
 # BEGIN-INCLUDE LICENSE.header
 # The MIT License (MIT)
-# 
+#
 # Copyright (c) 2016 Konstantin Baierer
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -101,7 +101,7 @@ shlog () {
             file*)
                 echo -e "$out" >> "$SHLOG_FILE_FILENAME"
                 ;;
-            term) 
+            term)
                 if [[ "$SHLOG_TERM_OUTPUT" = "stdout" ]];then
                     echo -e "$out"
                 else
@@ -142,7 +142,7 @@ shlog::reload () {
 
 
     ## ### Log levels
-    ## 
+    ##
     ## `shlog` knows five levels, from lowest to highest priority:
     ##
     ## * trace
@@ -161,14 +161,14 @@ shlog::reload () {
     )
 
     ## ### Configuration files
-    ## 
+    ##
     ## `shlog` will look in three places for a configuration file with
     ## environment variables:
-    ## 
+    ##
     ## * `/etc/default/shlogrc`
     ## * `$HOME/.config/shlog/shlogrc`
     ## * `$PWD/.shlogrc`
-    ## 
+    ##
     ## Environment variables in any of those files will be sourced in that
     ## order to configure the logging.
     ##
@@ -225,7 +225,7 @@ shlog::reload () {
     ## `SHLOG_TERM`: Minimum level for terminal. Default: `trace`
     ## #### `SHLOG_FILE`
     ## `SHLOG_FILE`: Minimum level for file logging. Default: `off`
-    ## 
+    ##
     SHLOG_OUTPUTS=(
         [term]="${SHLOG_TERM:-trace}"
         [file]="${SHLOG_FILE:-off}"
@@ -234,12 +234,12 @@ shlog::reload () {
     ## ### Enabling / Disabling colors
     ##
     ## Defines which outputs should use [styles](#shlog_styles).
-    ## 
+    ##
     ## #### `SHLOG_TERM_COLORIZE`
     ## `SHLOG_TERM_COLORIZE`: Use styles on terminal . Default: `"true"`
     ## #### `SHLOG_FILE_COLORIZE`
     ## `SHLOG_FILE_COLORIZE`: Use styles on file . Default: `"false"`
-    ## 
+    ##
     SHLOG_USE_STYLES=(
         [term]="${SHLOG_TERM_COLORIZE:-true}"
         [file]="${SHLOG_FILE_COLORIZE:-false}"
@@ -306,7 +306,7 @@ shlog::reload () {
     ## ### Debugging shlog
     ##
     ## #### `SHLOG_SELFDEBUG`
-    ## `SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon 
+    ## `SHLOG_SELFDEBUG`: If set to `"true"`, shlog will output its configuration upon
     ##  first initialization.
     ##
     ## Default: false
@@ -364,7 +364,7 @@ shlog::selfdebug () {
 }
 
 #api: ### `shlog::pipe`
-#api: 
+#api:
 #api: Read lines from STDIN and log them.
 #api:
 #api: See [`shlog`](#shlog) for options.
@@ -381,23 +381,23 @@ shlog::pipe () {
     done
 }
 #api: ### `shlog::profile`
-#api: 
+#api:
 #api: Profile the execution time of shell code.
-#api: 
+#api:
 #api: * Register a name with the profiler: `shlog::profile "my-feature"`
 #api: * Whenever you call `shlog::profile -log "my-feature" [shlog-args...]`
-#api:   from now on, a log message with the elapsed time will be output. 
+#api:   from now on, a log message with the elapsed time will be output.
 #api:   `[shlog-args...]` are passed on to `shlog`
-#api: 
+#api:
 #api: Example:
-#api: 
+#api:
 #api: ```sh
 #api: shlog::profile 'sleep'
 #api: sleep 1.7
 #api: shlog::profile -log 'sleep' -l "info"
 #api: sleep 0.7
 #api: shlog::profile -log 'sleep' -l "debug"
-#api: 
+#api:
 #api: # [info ] - Profiled 'sleep': 1705 ms
 #api: # [debug] - Profiled 'sleep': 708 ms
 #api: ```
@@ -434,7 +434,7 @@ shlog::profile () {
 # main function with args
 shlog::reload
 if [[ ${BASH_SOURCE[0]} != "$0" ]]; then
-    export -f shlog shlog::dump shlog::profile
+    export -f shlog #shlog::dump shlog::profile
 else
     shlog "${@}"
 fi
